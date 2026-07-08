@@ -6,12 +6,9 @@ import aloo_bhujia_image from "./aloo-bhujia.png";
 import aloo_bhujia_2 from "./aloo-bhujia2.png";
 
 import moong_dal_image from "./moong-dal.png";
-import wheat_image from "./wheat.JPG";
-import twist_image from "./twist.jpg";
-import aloo_bhujia_image from "./aloo-bhujia.png";
-import aloo_bhujia_2 from "./aloo-bhujia2.png";
 
-import moong_dal_image from "./moong-dal.png";
+
+
 import chips_image from "./chips.png";
 import banana_image from "./banana.png";
 import gulab_jamun_image from "./gulab-jamun.png";
