@@ -1,4 +1,5 @@
 //dummy Products
+import bakery_image from "./bakery.jpg";
 import wheat_image from "./wheat.JPG";
 import twist_image from "./twist.jpg";
 import aloo_bhujia_image from "./aloo-bhujia.png";
