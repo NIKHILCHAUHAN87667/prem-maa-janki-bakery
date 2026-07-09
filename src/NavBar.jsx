@@ -2,7 +2,31 @@ import { useState, useContext, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { AppContext } from "./AppContext";
 import profile_icon from "./profile_icon.png";
-import cart_icon from "./cart_icon.svg";
+
+// Inline SVG cart icon component.
+// Why: importing "cart_icon.svg" as a separate file relies on the import
+// path matching the file's exact case. On Vercel (Linux, case-sensitive
+// filesystem) a mismatch that "just works" locally on Windows/Mac can
+// silently 404 in production, leaving an empty box with no visible icon.
+// Rendering the icon as inline SVG removes that file dependency entirely.
+const CartIcon = ({ className = "w-6 h-6" }) => (
+  <svg
+    className={className}
+    viewBox="0 0 24 24"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <path
+      d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293A1 1 0 0 0 5.414 17H17"
+      stroke="#426287"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <circle cx="9" cy="20" r="1.5" fill="#426287" />
+    <circle cx="17" cy="20" r="1.5" fill="#426287" />
+  </svg>
+);
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
@@ -107,17 +131,17 @@ const NavBar = () => {
   // Get profile image URL with proper backend URL construction
   const getProfileImageUrl = () => {
     if (!user?.avatar) return profile_icon;
-    
+
     // If avatar is already a full URL (http/https), return it
     if (user.avatar.startsWith("http://") || user.avatar.startsWith("https://")) {
       return user.avatar;
     }
-    
+
     // If avatar is a blob URL (preview from file input), return it
     if (user.avatar.startsWith("blob:")) {
       return user.avatar;
     }
-    
+
     // Construct the full URL from backend
     // Avatar from server is typically like "/images/filename.jpg"
     const avatarPath = user.avatar.startsWith("/") ? user.avatar : `/${user.avatar}`;
@@ -202,6 +226,7 @@ const NavBar = () => {
           )}
         </div>
 
+        {/* Cart Icon */}
         <div
           onClick={() => {
             navigate("/cart");
@@ -227,6 +252,7 @@ const NavBar = () => {
               onClick={() => setShowProfileMenu(!showProfileMenu)}
               onError={(e) => {
                 // Fallback to default icon if image fails to load
+                e.target.onerror = null;
                 e.target.src = profile_icon;
               }}
             />
@@ -275,13 +301,14 @@ const NavBar = () => {
           <img
             src={profileImageUrl}
             alt="Profile"
-            className="w-9 h-9 rounded-full border-2 border-gray-200 object-cover cursor-pointer hover:opacity-80 hover:border-orange-500 transition-all shadow-sm"
+            className="w-9 h-9 rounded-full border-2 border-gray-200 object-cover cursor-pointer hover:opacity-80 hover:border-orange-500 transition-all shadow-sm flex-shrink-0"
             onClick={() => {
               navigate("/profile");
               setOpen(false);
             }}
             onError={(e) => {
               // Fallback to default icon if image fails to load
+              e.target.onerror = null;
               e.target.src = profile_icon;
             }}
           />
@@ -292,7 +319,7 @@ const NavBar = () => {
             setShowMobileSearch(!showMobileSearch);
             setOpen(false);
           }}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
           aria-label="Search"
         >
           <svg
@@ -320,14 +347,15 @@ const NavBar = () => {
           </svg>
         </button>
 
+        {/* Cart Icon - fixed size, inline SVG, cannot break from a missing/mis-cased file */}
         <div
           onClick={() => {
             navigate("/cart");
             setOpen(false);
           }}
-          className="relative cursor-pointer"
+          className="relative cursor-pointer flex-shrink-0 w-6 h-6 flex items-center justify-center"
         >
-          <img src={cart_icon} alt="Cart" className="w-6 h-6" />
+          <CartIcon className="w-6 h-6 flex-shrink-0" />
           {cartCountValue > 0 && (
             <span className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full flex items-center justify-center">
               {cartCountValue}
@@ -341,7 +369,7 @@ const NavBar = () => {
             setShowMobileSearch(false);
           }}
           aria-label="Menu"
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          className="p-2 hover:bg-gray-100 rounded-full transition-colors flex-shrink-0"
         >
           <svg
             width="21"
@@ -399,7 +427,7 @@ const NavBar = () => {
               </svg>
             </button>
           </div>
-          
+
           {/* Mobile Suggestions */}
           {searchSuggestions.length > 0 && searchQuery && (
             <div className="mt-2 bg-white rounded-lg overflow-hidden">
