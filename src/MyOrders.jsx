@@ -101,7 +101,9 @@ function MyOrders() {
                 <div className="text-right md:text-left">
                   <p className="hidden md:block"><span className="font-medium text-gray-500">Date:</span> {new Date(order.createdAt).toLocaleDateString()}</p>
                   <p className="md:hidden text-gray-400">{new Date(order.createdAt).toLocaleDateString()}</p>
-                  <p className="text-sm md:text-base font-semibold text-gray-800 mt-1">₹{(item.product?.offerPrice || 0) * (item.quantity || 1)}</p>
+                  <span className="font-semibold text-orange-600 sm:text-gray-800">
+  Total: ₹{order.amount}
+</span>
                 </div>
               </div>
             </div>
