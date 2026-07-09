@@ -10,24 +10,32 @@ axios.defaults.baseURL =
 // Legacy fallback: attach tokens from localStorage if present (httpOnly cookies are primary)
 axios.interceptors.request.use(
   (config) => {
-    const userToken = localStorage.getItem("userToken") || localStorage.getItem("token");
+    console.log("========== AXIOS INTERCEPTOR ==========");
+    console.log("URL:", config.url);
+
+    const userToken =
+      localStorage.getItem("userToken") || localStorage.getItem("token");
     const sellerToken = localStorage.getItem("sellerToken");
+
+    console.log("Seller Token:", sellerToken);
+
     const url = config.url || "";
+
     const isSellerRequest =
       url.startsWith("/api/seller") ||
       url === "/api/order/seller" ||
       url === "/api/order/status" ||
       url === "/api/order/approval";
 
-    if (isSellerRequest) {
-      if (sellerToken) {
-        config.headers.token = sellerToken;
-        config.headers.Authorization = `Bearer ${sellerToken}`;
-      }
-    } else if (userToken) {
-      config.headers.token = userToken;
-      config.headers.Authorization = `Bearer ${userToken}`;
+    console.log("isSellerRequest:", isSellerRequest);
+
+    if (isSellerRequest && sellerToken) {
+      config.headers.Authorization = `Bearer ${sellerToken}`;
+      config.headers.token = sellerToken;
+
+      console.log("Authorization Header Added");
     }
+
     return config;
   },
   (error) => Promise.reject(error)
