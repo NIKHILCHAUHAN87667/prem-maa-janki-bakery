@@ -245,38 +245,7 @@ const AppContextProvider = ({ children }) => {
     return () => clearTimeout(delayDebounceFn);
   }, [searchQuery]);
 
-  useEffect(() => {
-    // Skip navigation on initial mount
-    if (isInitialMount.current) {
-      isInitialMount.current = false;
-      prevSearchQueryRef.current = searchQuery;
-      return;
-    }
-
-    if (typeof searchQuery !== "string") {
-      prevSearchQueryRef.current = searchQuery;
-      return;
-    }
-
-    const trimmedQuery = searchQuery.trim();
-    const prevQuery = prevSearchQueryRef.current;
-    
-    // Only navigate if search query actually changed
-    if (prevQuery !== searchQuery) {
-      if (trimmedQuery.length > 0) {
-        // User typed something - navigate to products
-        navigate("/products");
-      } else if (prevQuery && prevQuery.trim().length > 0 && searchQuery === "") {
-        // User cleared the search (was non-empty, now empty) - navigate to home
-        const currentPath = window.location.pathname;
-        if (currentPath === "/products") {
-          navigate("/");
-        }
-      }
-      // Update ref for next comparison
-      prevSearchQueryRef.current = searchQuery;
-    }
-  }, [searchQuery, navigate]);
+  
 
   const value = {
     navigate,
