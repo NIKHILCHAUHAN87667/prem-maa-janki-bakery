@@ -227,11 +227,18 @@ const AddAddress = () => {
           <div className="md:col-span-2">
             <label className={labelClass}>Phone</label>
             <input
-              type="number"
+              type="tel"
               name="phone"
               value={address.phone}
-              onChange={handleChange}
+              onChange={(e) => {
+                // Allow only digits and limit to 10
+                const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                setAddress({ ...address, phone: value });
+              }}
               className={fieldClass}
+              placeholder="Enter 10-digit phone number"
+              maxLength={10}
+              pattern="[0-9]{10}"
               required
             />
           </div>
