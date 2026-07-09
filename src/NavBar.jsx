@@ -367,7 +367,9 @@ const NavBar = () => {
               placeholder="Search products"
               value={searchQuery || ""}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full py-2 bg-transparent outline-none placeholder-gray-500"
+              
+              placeholder="Search products"
+              className="py-1.5 w-64 bg-transparent outline-none placeholder-gray-500"
               autoFocus
             />
             <button
