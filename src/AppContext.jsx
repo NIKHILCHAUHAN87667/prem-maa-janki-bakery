@@ -25,7 +25,9 @@ axios.interceptors.request.use(
       url.startsWith("/api/seller") ||
       url === "/api/order/seller" ||
       url === "/api/order/status" ||
-      url === "/api/order/approval";
+      url === "/api/order/approval"||
+      url.startsWith("/api/products")
+      ;
 
     console.log("isSellerRequest:", isSellerRequest);
 
