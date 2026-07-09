@@ -363,17 +363,24 @@ const NavBar = () => {
         <div className="absolute top-full left-0 w-full bg-white border-b border-gray-200 px-4 py-3 sm:hidden shadow-md z-20">
           <div className="flex items-center gap-2 border border-gray-300 px-3 rounded-full">
             <input
-              type="text"
+              type="search"
               placeholder="Search products"
-              value={searchQuery || ""}
+              value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              
-              placeholder="Search products"
-              className="py-1.5 w-64 bg-transparent outline-none placeholder-gray-500"
-              autoFocus
-            />
+              onKeyDown={(e) => {
+                  if (e.key === "Enter" && searchQuery.trim()) {
+                      navigate(`/products?q=${encodeURIComponent(searchQuery)}`);
+                  }
+              }}
+    className="py-1.5 w-64 bg-transparent outline-none placeholder-gray-500"
+    enterKeyHint="search"
+/>
             <button
-              onClick={() => setShowMobileSearch(false)}
+             onClick={() => {
+                if (searchQuery.trim()) {
+                  navigate(`/products?q=${encodeURIComponent(searchQuery)}`);
+                }
+              }}
               className="text-gray-500 hover:text-gray-700 flex-shrink-0"
               aria-label="Close search"
             >
