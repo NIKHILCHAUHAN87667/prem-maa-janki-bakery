@@ -202,15 +202,14 @@ const NavBar = () => {
           )}
         </div>
 
-        {/* Cart Icon */}
         <div
           onClick={() => {
             navigate("/cart");
             setOpen(false);
           }}
-          className="relative cursor-pointer hover:opacity-80 transition-opacity"
+          className="relative cursor-pointer hover:opacity-80 transition-opacity flex-shrink-0"
         >
-          <img src={cart_icon} alt="Cart" className="w-6 h-6" />
+          <CartIcon className="w-6 h-6 flex-shrink-0" />
           {cartCountValue > 0 && (
             <span className="absolute -top-2 -right-3 text-xs text-white bg-indigo-500 w-[18px] h-[18px] rounded-full flex items-center justify-center">
               {cartCountValue}
