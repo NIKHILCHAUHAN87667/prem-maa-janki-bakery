@@ -228,6 +228,7 @@ const AppContextProvider = ({ children }) => {
   // Debounced search for suggestions
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
+      console.log("Searching:", searchQuery);
       if (searchQuery.trim().length > 1) {
         try {
           const { data } = await axios.get(`/api/products/search?q=${searchQuery}`);
