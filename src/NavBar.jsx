@@ -148,12 +148,14 @@ const NavBar = () => {
         <div className="hidden lg:flex flex-col relative">
           <div className="flex items-center gap-2 border border-gray-300 px-3 rounded-full hover:border-orange-500 transition-colors">
             <input
-              type="text"
-              placeholder="Search products"
-              value={searchQuery || ""}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="py-1.5 w-64 bg-transparent outline-none placeholder-gray-500"
-            />
+    value={searchQuery}
+    onChange={(e) => setSearchQuery(e.target.value)}
+    onKeyDown={(e) => {
+        if (e.key === "Enter" && searchQuery.trim()) {
+            navigate("/products");
+        }
+    }}
+/>
             <svg
               width="16"
               height="16"
